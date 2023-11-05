@@ -1,0 +1,6 @@
+name: "household-power-consumption"
+loader: "DefaultCSVLoader"
+loader_options:
+  separator: ";"
+  null_values: ["?"]
+asset: "household_power_consumption.txt"

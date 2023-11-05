@@ -9,8 +9,7 @@ readme = "README.md"
 line-length=120
 
 [tool.poetry.dependencies]
-python = "^3.10"
-dbt-postgres = "^1.7.0"
+python = ">=3.10,<3.13"
 duckdb = "^0.9.1"
 
 
@@ -18,10 +17,14 @@ duckdb = "^0.9.1"
 black = "^23.10.1"
 ruff = "^0.1.4"
 pyright = "^1.1.334"
+pylint = "^3.0.2"
 
 
-[tool.poetry.group.example.dependencies]
-kaggle = "^1.5.16"
+
+[tool.poetry.group.data.dependencies]
+pandas = "^2.1.2"
+polars = "^0.19.12"
+dbt-postgres = "^1.7.0"
 
 [build-system]
 requires = ["poetry-core"]

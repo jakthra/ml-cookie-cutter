@@ -7,7 +7,17 @@ Base tooling for ML projects from data ingress to model performance monitoring. 
 
 ### Data
 
-Transform data and generate datasets using
+Load data into local datalake using annotated structures
+```
+ml load-dataset -n timeseries-example
+```
+
+List datasets and their status
+```
+ml datasets
+```
+
+Transform data and generate consumable datasets using
 
 ```
 dbt build
