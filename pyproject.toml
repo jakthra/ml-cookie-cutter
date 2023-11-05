@@ -9,19 +9,27 @@ readme = "README.md"
 line-length=120
 
 [tool.poetry.dependencies]
-python = "^3.10"
-dbt-postgres = "^1.7.0"
+python = ">=3.10,<3.13"
 duckdb = "^0.9.1"
+typer = "^0.9.0"
 
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.10.1"
 ruff = "^0.1.4"
 pyright = "^1.1.334"
-pytest = "^7.4.3"
+pylint = "^3.0.2"
+
+[tool.dagster]
+module_name = "ml_cookie_cutter.data.dagster"
 
 
-[tool.poetry.group.example.dependencies]
+[tool.poetry.group.data.dependencies]
+pandas = "^2.1.2"
+polars = "^0.19.12"
+dbt-postgres = "^1.7.0"
+dagster = "^1.5.6"
+dagster-webserver = "^1.5.6"
 
 [build-system]
 requires = ["poetry-core"]

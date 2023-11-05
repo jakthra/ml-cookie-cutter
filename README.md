@@ -7,10 +7,11 @@ Base tooling for ML projects from data ingress to model performance monitoring. 
 
 ### Data
 
-Transform data and generate datasets using
+# TODO:
 
+List datasets and their status
 ```
-dbt build
+ml datasets
 ```
 
 ### ML
