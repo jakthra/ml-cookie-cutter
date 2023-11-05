@@ -18,10 +18,10 @@ duckdb = "^0.9.1"
 black = "^23.10.1"
 ruff = "^0.1.4"
 pyright = "^1.1.334"
+pytest = "^7.4.3"
 
 
 [tool.poetry.group.example.dependencies]
-kaggle = "^1.5.16"
 
 [build-system]
 requires = ["poetry-core"]
