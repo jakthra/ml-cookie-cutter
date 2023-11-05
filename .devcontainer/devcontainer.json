@@ -22,6 +22,9 @@
 				"ms-python.python"
 			]
 		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/git-lfs:1": {}
 	}
 
 	// Configure tool-specific properties.

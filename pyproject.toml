@@ -11,12 +11,17 @@ line-length=120
 [tool.poetry.dependencies]
 python = "^3.10"
 dbt-postgres = "^1.7.0"
+duckdb = "^0.9.1"
 
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.10.1"
 ruff = "^0.1.4"
 pyright = "^1.1.334"
+
+
+[tool.poetry.group.example.dependencies]
+kaggle = "^1.5.16"
 
 [build-system]
 requires = ["poetry-core"]
