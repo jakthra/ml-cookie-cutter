@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ml-cookie-cutter"
+version = "0.1.0"
+description = ""
+authors = ["Jakob Thrane <jakobthrane@gmail.com>"]
+readme = "README.md"
+
+[tool.black]
+line-length=120
+
+[tool.poetry.dependencies]
+python = "^3.10"
+dbt-postgres = "^1.7.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.10.1"
+ruff = "^0.1.4"
+pyright = "^1.1.334"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
