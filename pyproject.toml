@@ -11,6 +11,7 @@ line-length=120
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
 duckdb = "^0.9.1"
+typer = "^0.9.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -21,6 +22,7 @@ pylint = "^3.0.2"
 
 [tool.dagster]
 module_name = "ml_cookie_cutter.data.dagster"
+
 
 [tool.poetry.group.data.dependencies]
 pandas = "^2.1.2"
