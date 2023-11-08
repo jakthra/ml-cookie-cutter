@@ -1,6 +1,9 @@
 from pathlib import Path
+import shutil
 from typing import Iterator, Tuple
+import pytest
 from dagster import materialize
+from dagster_duckdb_polars import DuckDBPolarsIOManager
 import duckdb
 
 from ml_cookie_cutter.data.dagster.timeseries_example import (
@@ -10,9 +13,7 @@ from ml_cookie_cutter.data.dagster.timeseries_example import (
 )
 from ml_cookie_cutter.data.dagster.io_managers import LocalPolarsParquetIOManager, SourceAssetPolarsIOManager
 import polars as pl
-import pytest
-import shutil
-from dagster_duckdb_polars import DuckDBPolarsIOManager
+
 
 PERSIST_TEST_DATA = True
 
