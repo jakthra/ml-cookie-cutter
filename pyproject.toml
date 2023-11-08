@@ -24,12 +24,26 @@ pylint = "^3.0.2"
 module_name = "ml_cookie_cutter.data.dagster"
 
 
+[tool.poetry.scripts]
+ml = "ml_cookie_cutter.cli:app"
+
+
+
+
 [tool.poetry.group.data.dependencies]
-pandas = "^2.1.2"
+pandas = "<2.1.2"
 polars = "^0.19.12"
 dbt-postgres = "^1.7.0"
 dagster = "^1.5.6"
 dagster-webserver = "^1.5.6"
+dagster-duckdb = "^0.21.6"
+dagster-duckdb-pandas = "^0.21.6"
+jupytext = "^1.15.2"
+pyarrow = "^14.0.0"
+ipykernel = "^6.26.0"
+plotly = "^5.18.0"
+matplotlib = "^3.8.1"
+dagster-duckdb-polars = "^0.21.6"
 
 [build-system]
 requires = ["poetry-core"]
