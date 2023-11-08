@@ -1,10 +1,8 @@
-from dagster_duckdb import DuckDBResource
-
-from tomlkit import key
-from dagster import AssetKey, DataVersion, SourceAsset, asset_check
 from dagster import (
     asset,
     AssetIn,
+    AssetKey,
+    asset_check,
     Output,
     TableSchemaMetadataValue,
     TableSchema,
