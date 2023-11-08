@@ -56,11 +56,6 @@ def timeseries_example_cleaned(timeseries_example_df: pl.DataFrame):
     return timeseries_example_df
 
 
-# @asset(io_manager_key="parquet_io_manager", key_prefix=[DATASET_PREFIX])
-# def timeseries_example_cleaned_parquet(timeseries_example_cleaned: pl.DataFrame):
-#     return timeseries_example_cleaned
-
-
 @asset_check(asset=timeseries_example_cleaned)
 def no_nulls_in_timeseries_example_cleaned(context):
     df = context.upstream_output(timeseries_example_cleaned).load_input("timeseries_example_cleaned")

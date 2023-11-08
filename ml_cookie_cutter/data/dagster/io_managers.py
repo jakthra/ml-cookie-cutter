@@ -6,7 +6,7 @@ from upath import UPath
 class SourceAssetPolarsIOManager(ConfigurableIOManager):
     """Translates between Pandas DataFrames and CSVs on the local filesystem."""
 
-    def handle_output(self, context, obj: pl.DataFrame):
+    def handle_output(self, context: OutputContext, obj: pl.DataFrame):
         """This saves the dataframe as a CSV."""
         pass
 
@@ -40,6 +40,6 @@ class PolarsParquetIOManager(UPathIOManager):
 class LocalPolarsParquetIOManager(ConfigurableIOManagerFactory["PolarsParquetIOManager"]):
     base_path: str
 
-    def create_io_manager(self, context) -> PolarsParquetIOManager:
+    def create_io_manager(self, context: InputContext) -> PolarsParquetIOManager:
         base_path = UPath(self.base_path or context.instance.storage_directory())
         return PolarsParquetIOManager(base_path=base_path)

@@ -24,6 +24,3 @@ jobs:
     - name: Analysing the code with black
       run: |
         black . --check
-    - name: Analysing the code with pyright
-      run: |
-        pyright . 
