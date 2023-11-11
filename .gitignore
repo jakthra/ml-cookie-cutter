@@ -162,3 +162,4 @@ cython_debug/
 .nux/
 storage/
 tests/fixtures_output/
+data/datalake/
