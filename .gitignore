@@ -161,3 +161,4 @@ cython_debug/
 .telemetry/
 .nux/
 storage/
+tests/fixtures_output/

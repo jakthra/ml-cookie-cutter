@@ -16,9 +16,10 @@
 
 # %%
 import duckdb
-import plotly.express as px
-from ml_cookie_cutter.data.constants import DUCKDB_PATH
 import pandas as pd
+import plotly.express as px
+
+from ml_cookie_cutter.data.constants import DUCKDB_PATH
 
 # %%
 conn = duckdb.connect(str(DUCKDB_PATH))

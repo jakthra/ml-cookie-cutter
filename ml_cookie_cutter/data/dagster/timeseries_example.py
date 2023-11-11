@@ -1,16 +1,16 @@
-from dagster import (
-    asset,
-    AssetIn,
-    AssetKey,
-    asset_check,
-    Output,
-    TableSchemaMetadataValue,
-    TableSchema,
-    TableColumn,
-    SourceAsset,
-)
 import polars as pl
 
+from dagster import (
+    AssetIn,
+    AssetKey,
+    Output,
+    SourceAsset,
+    TableColumn,
+    TableSchema,
+    TableSchemaMetadataValue,
+    asset,
+    asset_check,
+)
 from ml_cookie_cutter.data.raw import RawDataset
 
 DATASET_PREFIX = "timeseries"

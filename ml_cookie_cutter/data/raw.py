@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Any, Dict
 
-from pydantic import BaseModel
 import yaml
+from pydantic import BaseModel
 
 from ml_cookie_cutter.data.constants import RAW_DATASET_DIRECTORY
 

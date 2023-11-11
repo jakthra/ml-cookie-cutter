@@ -24,9 +24,20 @@ pylint = "^3.0.2"
 module_name = "ml_cookie_cutter.data.dagster"
 
 
+[tool.ruff]
+select = [
+    # Pyflakes
+    "F",
+    # Pycodestyle
+    "E",
+    "W",
+    # isort
+    "I"
+]
+line-length = 120
+
 [tool.poetry.scripts]
 ml = "ml_cookie_cutter.cli:app"
-
 
 
 

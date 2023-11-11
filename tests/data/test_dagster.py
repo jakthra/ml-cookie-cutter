@@ -1,19 +1,19 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 from typing import Iterator, Tuple
-import pytest
-from dagster import materialize
-from dagster_duckdb_polars import DuckDBPolarsIOManager
-import duckdb
 
+import duckdb
+import polars as pl
+import pytest
+from dagster_duckdb_polars import DuckDBPolarsIOManager
+
+from dagster import materialize
+from ml_cookie_cutter.data.dagster.io_managers import LocalPolarsParquetIOManager, SourceAssetPolarsIOManager
 from ml_cookie_cutter.data.dagster.timeseries_example import (
     timeseries_example_asset,
     timeseries_example_cleaned,
     timeseries_example_df,
 )
-from ml_cookie_cutter.data.dagster.io_managers import LocalPolarsParquetIOManager, SourceAssetPolarsIOManager
-import polars as pl
-
 
 PERSIST_TEST_DATA = True
 
@@ -37,8 +37,8 @@ def duckdb_persisted_db(test_fixture_output: Path) -> Iterator[Tuple[str, duckdb
 
 
 @pytest.fixture
-def local_parquet_persisted_io_manager(test_fixture_output: Path) -> Iterator[LocalPolarsParquetIOManager]:
-    yield LocalPolarsParquetIOManager(base_path=str(test_fixture_output))
+def local_parquet_persisted_io_manager(test_fixture_output: Path) -> Iterator[Tuple[LocalPolarsParquetIOManager, Path]]:
+    yield LocalPolarsParquetIOManager(base_path=str(test_fixture_output)), test_fixture_output
 
 
 class TestTimeseriesMaterialization:
@@ -56,19 +56,23 @@ class TestTimeseriesMaterialization:
             [timeseries_example_asset, timeseries_example_df, timeseries_example_cleaned],
             resources={
                 "source_asset_polars_io_manager": SourceAssetPolarsIOManager(),
-                "local_polars_parquet_io_manager": duckdb_resource,  # overwrite default io manager of timeseries_example_cleaned to be a duckdb resource
+                "local_polars_parquet_io_manager": duckdb_resource,
+                # overwrite default io manager of timeseries_example_cleaned to be a duckdb resource
             },
         )
 
         df = conn.sql("SELECT * FROM timeseries.timeseries_example_cleaned").pl()
         assert isinstance(df, pl.DataFrame)
 
-    def test_local_parquet_materialization(self, local_parquet_persisted_io_manager: LocalPolarsParquetIOManager):
+    def test_local_parquet_materialization(
+        self, local_parquet_persisted_io_manager: Tuple[LocalPolarsParquetIOManager, Path]
+    ):
+        io_manager, folder = local_parquet_persisted_io_manager
         materialize(
             [timeseries_example_asset, timeseries_example_df, timeseries_example_cleaned],
             resources={
                 "source_asset_polars_io_manager": SourceAssetPolarsIOManager(),
-                "local_polars_parquet_io_manager": local_parquet_persisted_io_manager,
+                "local_polars_parquet_io_manager": io_manager,
             },
         )
-        assert Path("test_data/timeseries/timeseries_example_cleaned.parquet").exists()
+        assert (folder / "timeseries" / "timeseries_example_cleaned.parquet").exists()
