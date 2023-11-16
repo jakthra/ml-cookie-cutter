@@ -8,8 +8,8 @@ import pytest
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
 from dagster import materialize
-from ml_cookie_cutter.data.dagster.io_managers import LocalPolarsParquetIOManager, SourceAssetPolarsIOManager
-from ml_cookie_cutter.data.dagster.timeseries_example import (
+from ml_cookie_cutter.orchestration.io_managers import LocalPolarsParquetIOManager, SourceAssetPolarsIOManager
+from ml_cookie_cutter.orchestration.timeseries_example import (
     timeseries_example_asset,
     timeseries_example_cleaned,
     timeseries_example_df,

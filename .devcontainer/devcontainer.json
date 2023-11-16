@@ -16,7 +16,9 @@
 		"vscode": {
 			"extensions": [
 				"yzhang.markdown-all-in-one",
-				"ms-python.python"
+				"ms-python.python",
+				"congyiwu.vscode-jupytext",
+				"GitHub.copilot"
 			]
 		}
 	},

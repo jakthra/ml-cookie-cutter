@@ -15,18 +15,35 @@
 # ---
 
 # %%
-import duckdb
-import pandas as pd
+import matplotlib.pyplot as plt
 import plotly.express as px
+import polars as pl
+import seaborn as sns
 
-from ml_cookie_cutter.data.constants import DUCKDB_PATH
+from dagster import materialize
+from ml_cookie_cutter.orchestration.definitions import parquet_io_manager
+from ml_cookie_cutter.orchestration.io_managers import SourceAssetPolarsIOManager
+from ml_cookie_cutter.orchestration.timeseries_example import (
+    timeseries_average_per_day,
+    timeseries_example_asset,
+    timeseries_example_cleaned,
+    timeseries_example_df,
+)
 
 # %%
-conn = duckdb.connect(str(DUCKDB_PATH))
-df = conn.sql("SELECT * FROM timeseries_example_cleaned").to_df()
-df["Datetime"] = df["Date"] + " " + df["Time"]
-df["Datetime"] = pd.to_datetime(df["Datetime"], format="%d/%m/%Y %H:%M:%S")
-df.head()
+result = materialize(
+    [timeseries_example_asset, timeseries_example_df, timeseries_example_cleaned, timeseries_average_per_day],
+    resources={
+        "source_asset_polars_io_manager": SourceAssetPolarsIOManager(),
+        "local_polars_parquet_io_manager": parquet_io_manager,
+    },
+)
+
+# %%
+df = result.asset_value(timeseries_example_cleaned.key)
+
+# %%
+df
 
 # %% [markdown]
 # https://plotly.com/python/ipython-notebook-tutorial/
@@ -36,7 +53,6 @@ active_columns = [
     "Global_active_power",
     "Global_reactive_power",
     "Voltage",
-    "Global_intensity",
     "Sub_metering_1",
     "Sub_metering_2",
     "Sub_metering_3",
@@ -54,12 +70,63 @@ active_columns = [
 #     fig.add_trace(go.Histogram(x=df[column]), row=row, col=col)
 
 # fig.show(width=400)
-df.hist(column=active_columns, figsize=(20, 10), bins=100)
+df_pandas = df.to_pandas()
+df_pandas.hist(column=active_columns, figsize=(20, 10), bins=100)
 
 # %%
 px.line(df[:2000], x="Datetime", y="Global_active_power", title="Global active power over time")
 
+
 # %%
-df.info()
+def average_global_active_power_per_temporal_unit(df: pl.DataFrame, temporal_unit: str):
+    return df.sort(["Datetime"]).rolling("Datetime", period=temporal_unit).agg(pl.col("Global_active_power").mean())
+
+
+average_global_active_power_per_day = average_global_active_power_per_temporal_unit(df, "1d")
+average_global_active_power_per_hour = average_global_active_power_per_temporal_unit(df, "1h")
+
+fig = plt.figure(figsize=(20, 10))
+sns.set_theme(style="darkgrid")
+sns.lineplot(
+    average_global_active_power_per_hour,
+    x="Datetime",
+    y="Global_active_power",
+    label="Average global active power per hour",
+)
+sns.lineplot(
+    average_global_active_power_per_day,
+    x="Datetime",
+    y="Global_active_power",
+    label="Average global active power per day",
+)
+# plt.plot(average_global_active_power_per_hour["Datetime"], average_global_active_power_per_hour["Global_active_power"], label="Average global active power per hour")
+# plt.plot(average_global_active_power_per_day["Datetime"], average_global_active_power_per_day["Global_active_power"],  label="Average global active power per day")
+# plt.legend()
+plt.show()
+# px.line(average_global_active_power_per_hour[:2000], x="Datetime", y="Global_active_power", title="Global active power over time")
+
+# %%
+# Visualize traces per day
+from datetime import timedelta
+
+days_to_sample = df.sort(["Datetime"]).group_by_dynamic("Datetime", every="1d").agg()
+
+df = df.with_columns(pl.col("Datetime").dt.time().alias("Time"))
+
+# Sample 10 random days
+days_to_sample = days_to_sample.sample(10)
+
+# Plot the traces
+fig = plt.figure(figsize=(20, 10))
+for day in days_to_sample["Datetime"]:
+    day_df = df.filter(pl.col("Datetime").is_between(day, day + timedelta(hours=23, minutes=59, seconds=59)))
+    sns.lineplot(day_df, x="Datetime", y="Global_active_power", label=day.strftime("%Y-%m-%d"))
+
+# fig = plt.figure(figsize=(20, 10))
+
+
+# %%
+
+# %%
 
 # %%

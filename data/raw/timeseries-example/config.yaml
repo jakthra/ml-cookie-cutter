@@ -1,2 +1,5 @@
 name: "household_power_consumption"
 asset: "household_power_consumption.txt"
+polars_read_kwargs:
+  separator: ";" 
+  null_values: ["?"]

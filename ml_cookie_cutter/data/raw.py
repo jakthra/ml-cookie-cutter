@@ -28,6 +28,7 @@ class DatasetDirectories:
 class RawDatasetConfig(BaseModel):
     name: str
     asset: str
+    polars_read_kwargs: Dict[str, Any] = {}
 
 
 raw_dataset_directories = DatasetDirectories(RAW_DATASET_DIRECTORY)
@@ -51,6 +52,10 @@ class RawDataset:
         }
 
     @property
+    def pl_read_kwargs(self):
+        return self.config.polars_read_kwargs
+
+    @property
     def asset_path(self):
         return self.root_path / self.config.asset
 
@@ -58,7 +63,7 @@ class RawDataset:
         config_path = self.root_path / "config.yaml"
         if config_path.exists():
             with open(config_path, "r") as f:
-                return RawDatasetConfig.parse_obj(yaml.safe_load(f))
+                return RawDatasetConfig.model_validate(yaml.safe_load(f))
 
         raise ValueError(f"Config file {config_path} not found")
 
