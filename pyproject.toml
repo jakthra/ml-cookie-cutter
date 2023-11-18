@@ -33,6 +33,7 @@ select = [
     # Pycodestyle
     "E",
     "W",
+    "B",
     # isort
     "I"
 ]
@@ -41,8 +42,6 @@ exclude = [ "ml_cookie_cutter/data/notebooks/*" ]
 
 [tool.poetry.scripts]
 ml = "ml_cookie_cutter.cli:app"
-
-
 
 [tool.poetry.group.data.dependencies]
 pandas = "<2.1.2"
