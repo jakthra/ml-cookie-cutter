@@ -2,8 +2,6 @@ import warnings
 from typing import Tuple
 
 import polars as pl
-from pydantic import model_validator
-
 from dagster import (
     AssetCheckResult,
     AssetCheckSpec,
@@ -18,6 +16,8 @@ from dagster import (
     TableSchemaMetadataValue,
     asset,
 )
+from pydantic import model_validator
+
 from ml_cookie_cutter.data.raw import RawDataset
 
 warnings.filterwarnings("ignore", category=ExperimentalWarning)

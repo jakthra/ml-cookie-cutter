@@ -1,6 +1,4 @@
 import polars as pl
-from upath import UPath
-
 from dagster import (
     ConfigurableIOManager,
     ConfigurableIOManagerFactory,
@@ -8,6 +6,7 @@ from dagster import (
     OutputContext,
     UPathIOManager,
 )
+from upath import UPath
 
 
 class SourceAssetPolarsIOManager(ConfigurableIOManager):

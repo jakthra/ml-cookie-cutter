@@ -1,14 +1,14 @@
 import os
 
-from dagster_duckdb import DuckDBResource
-from dagster_duckdb_polars import DuckDBPolarsIOManager
-
 from dagster import (
     Definitions,
     load_asset_checks_from_modules,
     load_assets_from_modules,
     materialize,
 )
+from dagster_duckdb import DuckDBResource
+from dagster_duckdb_polars import DuckDBPolarsIOManager
+
 from ml_cookie_cutter.data.constants import (
     DAGSTER_HOME,
     DATALAKE_DIRECTORY,

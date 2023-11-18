@@ -5,9 +5,9 @@ from typing import Iterator, Tuple
 import duckdb
 import polars as pl
 import pytest
+from dagster import materialize
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
-from dagster import materialize
 from ml_cookie_cutter.orchestration.io_managers import (
     LocalPolarsParquetIOManager,
     SourceAssetPolarsIOManager,
