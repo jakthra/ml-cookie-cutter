@@ -12,18 +12,21 @@
 	// "forwardPorts": [5000, 5432],
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "poetry install && poetry shell",
+	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"yzhang.markdown-all-in-one",
 				"ms-python.python",
 				"congyiwu.vscode-jupytext",
-				"GitHub.copilot"
+				"GitHub.copilot",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	},
 	"features": {
-		"ghcr.io/devcontainers/features/git-lfs:1": {}
+		"ghcr.io/devcontainers/features/git-lfs:1": {},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
 	}
 	// Configure tool-specific properties.
 	// "customizations": {},

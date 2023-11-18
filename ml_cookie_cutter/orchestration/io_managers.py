@@ -1,7 +1,13 @@
 import polars as pl
 from upath import UPath
 
-from dagster import ConfigurableIOManager, ConfigurableIOManagerFactory, InputContext, OutputContext, UPathIOManager
+from dagster import (
+    ConfigurableIOManager,
+    ConfigurableIOManagerFactory,
+    InputContext,
+    OutputContext,
+    UPathIOManager,
+)
 
 
 class SourceAssetPolarsIOManager(ConfigurableIOManager):

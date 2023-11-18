@@ -30,16 +30,19 @@ ml build --run-name incredible-crane-313
 
 
 
-## Folder structure
+### Development notes
 
-📦data
- ┣ 📂transformed
- ┗ 📂raw
-📦ml_cookie_cutter
-┣ 📂data
-┣ 📂ml
-┗ 📂ops
-📦tests
-📦docs
- ┗ 📂assets
+#### Development container
+
+The repository contains a dev container for vscode with all necessary dependencies. Thus, for any development, I'd recommend Vscode.
+
+#### Github actions
+
+Github actions can be run locally with 
+
+```
+act
+```
+
+
 

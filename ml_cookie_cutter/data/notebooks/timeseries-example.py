@@ -15,6 +15,8 @@
 # ---
 
 # %%
+from datetime import timedelta
+
 import matplotlib.pyplot as plt
 import plotly.express as px
 import polars as pl
@@ -107,7 +109,6 @@ plt.show()
 
 # %%
 # Visualize traces per day
-from datetime import timedelta
 
 days_to_sample = df.sort(["Datetime"]).group_by_dynamic("Datetime", every="1d").agg()
 

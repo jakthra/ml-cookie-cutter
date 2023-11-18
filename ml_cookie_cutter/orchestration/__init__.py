@@ -3,10 +3,22 @@ import os
 from dagster_duckdb import DuckDBResource
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
-from dagster import Definitions, load_asset_checks_from_modules, load_assets_from_modules, materialize
-from ml_cookie_cutter.data.constants import DAGSTER_HOME, DATALAKE_DIRECTORY, RAW_DATASET_DIRECTORY
+from dagster import (
+    Definitions,
+    load_asset_checks_from_modules,
+    load_assets_from_modules,
+    materialize,
+)
+from ml_cookie_cutter.data.constants import (
+    DAGSTER_HOME,
+    DATALAKE_DIRECTORY,
+    RAW_DATASET_DIRECTORY,
+)
 from ml_cookie_cutter.orchestration import timeseries_example
-from ml_cookie_cutter.orchestration.io_managers import LocalPolarsParquetIOManager, SourceAssetPolarsIOManager
+from ml_cookie_cutter.orchestration.io_managers import (
+    LocalPolarsParquetIOManager,
+    SourceAssetPolarsIOManager,
+)
 from ml_cookie_cutter.orchestration.timeseries_example import (
     timeseries_average_per_day,
     timeseries_example_asset,
