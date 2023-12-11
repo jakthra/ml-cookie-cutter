@@ -23,6 +23,10 @@ black = "^23.11.0"
 pyright = "^1.1.336"
 
 
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.3"
+
 [tool.dagster]
 module_name = "ml_cookie_cutter.dagster"
 
