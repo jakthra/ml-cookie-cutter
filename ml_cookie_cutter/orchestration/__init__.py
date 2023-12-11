@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+from typing import Literal
 
 from dagster import (
     Definitions,
@@ -12,6 +14,7 @@ from dagster_duckdb_polars import DuckDBPolarsIOManager
 from ml_cookie_cutter.data.constants import (
     DAGSTER_HOME,
     DATALAKE_DIRECTORY,
+    DATASET_PREFIX,
     RAW_DATASET_DIRECTORY,
 )
 from ml_cookie_cutter.orchestration import timeseries_example
@@ -35,7 +38,6 @@ duckdb_resource = DuckDBResource(
 parquet_io_manager = LocalPolarsParquetIOManager(base_path=str(DATALAKE_DIRECTORY))
 duckdb_polars_io_manager = DuckDBPolarsIOManager(database=str(DATALAKE_DIRECTORY / "duckdb.db"))
 
-projects = [timeseries_example.DATASET_PREFIX]
 
 os.environ["DAGSTER_HOME"] = str(DAGSTER_HOME)
 os.environ["RAW_DATA_VAULT"] = str(RAW_DATASET_DIRECTORY)
@@ -52,11 +54,41 @@ defs = Definitions(
 )
 
 
-def materialize_timeseries_data_assets():
+def materialize_timeseries_data_assets(
+    io_manager: Literal["duckdb_polars_io_manager", "local_polars_parquet_io_manager"]
+):
+    # TODO: Add support for duckdb_polars_io_manager for dataset assets
     return materialize(
-        [timeseries_example_asset, timeseries_example_df, timeseries_example_cleaned, timeseries_average_per_day],
+        [
+            timeseries_example_asset,
+            timeseries_example_df,
+            timeseries_example_cleaned,
+            timeseries_average_per_day,
+        ],
         resources={
             "source_asset_polars_io_manager": SourceAssetPolarsIOManager(),
             "local_polars_parquet_io_manager": parquet_io_manager,
         },
     )
+
+
+class Project:
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+    def get_datasets(self) -> list[Path]:
+        return list((DATALAKE_DIRECTORY / self.name / DATASET_PREFIX).rglob("*.parquet"))
+
+    def __eq__(self, __value: object) -> bool:
+        if isinstance(__value, str):
+            return self.name == __value
+        return super().__eq__(__value)
+
+    def __repr__(self) -> str:
+        return f"Project(name={self.name})"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+projects = [Project(name=timeseries_example.DATASET_PREFIX)]

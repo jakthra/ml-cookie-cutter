@@ -3,15 +3,22 @@ Base tooling for ML projects from data ingress to model performance monitoring. 
 
 ![overview](docs/assets/ml-cookie-cutter.png)
 
+## Get started
+
+See `Development container`, all setup should be included. If not,
+
+```
+poetry install
+git lfs pull
+```
+
 ## Behavioural applications
 
 ### Data
 
-# TODO:
-
-List datasets and their status
+List projects
 ```
-ml datasets
+ml list
 ```
 
 ### ML

@@ -124,10 +124,3 @@ for day in days_to_sample["Datetime"]:
     sns.lineplot(day_df, x="Datetime", y="Global_active_power", label=day.strftime("%Y-%m-%d"))
 
 # fig = plt.figure(figsize=(20, 10))
-
-
-# %%
-
-# %%
-
-# %%

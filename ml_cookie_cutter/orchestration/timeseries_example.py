@@ -77,50 +77,36 @@ def timeseries_example_cleaned(timeseries_example_df: pl.DataFrame):
 
 
 def average_global_active_power_per_temporal_unit(df: pl.DataFrame, temporal_unit: str):
-    return df.sort(["Datetime"]).rolling("Datetime", period=temporal_unit).agg(pl.col("Global_active_power").mean())
+    return (
+        df.sort(["Datetime"])
+        .rolling("Datetime", period=temporal_unit)
+        .agg(
+            pl.col("Global_active_power").mean(),
+            pl.col("Global_reactive_power").mean(),
+            pl.col("Voltage").mean(),
+            pl.col("Global_intensity").mean(),
+            pl.col("Sub_metering_1").mean(),
+            pl.col("Sub_metering_2").mean(),
+            pl.col("Sub_metering_3").mean(),
+        )
+    )
 
 
 @asset(
-    code_version="1",
+    code_version="2",
     io_manager_key="local_polars_parquet_io_manager",
     ins={"timeseries_example_cleaned": AssetIn(timeseries_example_cleaned.key)},
     key_prefix=[DATASET_PREFIX, "dataset"],
 )
 def timeseries_average_per_day(timeseries_example_cleaned: pl.DataFrame):
-    return average_global_active_power_per_temporal_unit(timeseries_example_cleaned, "1d")
-
-
-# class TimeSeriesVersionedDatasetFactory:
-#     def __init__(self, prefix: str) -> None:
-#         self.prefix = prefix
-
-#     def __call__(self, _asset: AssetsDefinition,
-#           version: semver.Version = semver.Version("0.0.1")) -> AssetsDefinition:
-#         @asset(name=f"versioned_{_asset.key.path[-1]}",
-#           key_prefix=[self.prefix, "dataset", _asset.key.path[-1], f"v{str(version).replace('.', '_')}"])
-#         def versioned_asset():
-#             return Output(value=_asset, metadata={"version": str(version)})
-
-#         return versioned_asset
-
-
-# dataset_factory = TimeSeriesVersionedDatasetFactory(DATASET_PREFIX)
-
-# timeseries_average_per_day_dataset = dataset_factory(timeseries_average_per_day, version=semver.Version("0.0.1"))
-
-
-# @asset(
-#     code_version="1",
-#     io_manager_key="local_polars_parquet_io_manager",
-#     key_prefix=[DATASET_PREFIX],
-# )
-# def timeseries_train_test_split(
-#     config: TrainTestConfig,
-#     timeseries_average_per_day: pl.DataFrame,
-# ):
-#     timeseries_average_per_day = timeseries_average_per_day
-#     train, test = config.apply_split(timeseries_average_per_day)
-#     return train, test
+    df = average_global_active_power_per_temporal_unit(timeseries_example_cleaned, "1d")
+    return df.with_columns(
+        pl.col("Datetime").dt.weekday().alias("weekday"),
+        pl.col("Datetime").dt.day().alias("day_of_month"),
+        pl.col("Datetime").dt.ordinal_day().alias("day_of_year"),
+        pl.col("Datetime").dt.hour().alias("hour"),
+        pl.col("Datetime").dt.minute().alias("minute"),
+    )
 
 
 class TrainTestConfig(Config):
