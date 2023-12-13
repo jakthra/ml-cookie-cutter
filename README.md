@@ -8,8 +8,7 @@ Base tooling for ML projects from data ingress to model performance monitoring. 
 See `Development container`, all setup should be included. If not,
 
 ```
-poetry install
-git lfs pull
+make install
 ```
 
 ## Behavioural applications
