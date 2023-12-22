@@ -21,8 +21,8 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import polars as pl
 import seaborn as sns
-
 from dagster import materialize
+
 from ml_cookie_cutter.orchestration.definitions import parquet_io_manager
 from ml_cookie_cutter.orchestration.io_managers import SourceAssetPolarsIOManager
 from ml_cookie_cutter.orchestration.timeseries_example import (
@@ -45,7 +45,7 @@ result = materialize(
 df = result.asset_value(timeseries_example_cleaned.key)
 
 # %%
-df
+df  # noqa: B018
 
 # %% [markdown]
 # https://plotly.com/python/ipython-notebook-tutorial/
@@ -101,11 +101,18 @@ sns.lineplot(
     y="Global_active_power",
     label="Average global active power per day",
 )
-# plt.plot(average_global_active_power_per_hour["Datetime"], average_global_active_power_per_hour["Global_active_power"], label="Average global active power per hour")
-# plt.plot(average_global_active_power_per_day["Datetime"], average_global_active_power_per_day["Global_active_power"],  label="Average global active power per day")
+# plt.plot(average_global_active_power_per_hour["Datetime"],
+# average_global_active_power_per_hour["Global_active_power"],
+# label="Average global active power per hour")
+# plt.plot(average_global_active_power_per_day["Datetime"],
+# average_global_active_power_per_day["Global_active_power"],
+# label="Average global active power per day")
 # plt.legend()
 plt.show()
-# px.line(average_global_active_power_per_hour[:2000], x="Datetime", y="Global_active_power", title="Global active power over time")
+# px.line(average_global_active_power_per_hour[:2000],
+# x="Datetime",
+# y="Global_active_power",
+# title="Global active power over time")
 
 # %%
 # Visualize traces per day

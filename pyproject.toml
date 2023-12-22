@@ -5,6 +5,11 @@ description = ""
 authors = ["Jakob Thrane <jakobthrane@gmail.com>"]
 readme = "README.md"
 
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
 [tool.black]
 line-length=120
 
@@ -27,8 +32,17 @@ pyright = "^1.1.336"
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.3"
 
+
+[tool.poetry.group.timeseries.dependencies]
+torch = {version = "^2.1.1+cpu", source = "pytorch"}
+torchvision = {version = "^0.16.1+cpu", source = "pytorch"}
+pyro-ppl = {version = "^1.8.6"}
+
 [tool.dagster]
 module_name = "ml_cookie_cutter.dagster"
+
+[tool.poetry.extras]
+torch = ["torch", "torchvision", "pyro-ppl"]
 
 [tool.ruff]
 select = [
@@ -42,7 +56,7 @@ select = [
     "I",
 ]
 line-length = 120
-exclude = [ "ml_cookie_cutter/data/notebooks/*" ]
+
 
 [tool.poetry.scripts]
 ml = "ml_cookie_cutter.cli:app"
