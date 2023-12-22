@@ -3,16 +3,18 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, Union
 
 import typer
+from rich import print
+from rich.panel import Panel
 
 if TYPE_CHECKING:
-    from ml_cookie_cutter.orchestration import Project
+    from ml_cookie_cutter.projects import Project
 
 
 app = typer.Typer()
 
 
 def get_project_by_name(project: str):
-    from ml_cookie_cutter.orchestration import projects
+    from ml_cookie_cutter.projects import projects
 
     _project: Optional[Project] = next((p for p in projects if p == project), None)
 
@@ -66,13 +68,16 @@ def list_datasets(project: str):
 @app.command("list", help="List projects")
 def list_projects():
     """List projects"""
-    from ml_cookie_cutter.orchestration import projects
-
-    typer.echo(
-        f"""Available projects:
-                {(", ").join([str(project) for project in projects])}
-    """
-    )
+    from ml_cookie_cutter.projects import projects
+    projects = [project for project in projects]
+    strings = []
+    for index, project in enumerate(projects):
+        description = f"({project.description})" if project.description else ""
+        strings.append(f"[{index}] {project.name} {description}")
+    strings_formatted = '\n'.join(strings)
+    print(Panel.fit(
+        f"""{strings_formatted}"""
+    , title="Projects"))
 
 
 if __name__ == "__main__":

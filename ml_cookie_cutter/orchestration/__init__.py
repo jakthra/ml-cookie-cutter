@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 from typing import Literal
 
 from dagster import (
@@ -14,7 +13,6 @@ from dagster_duckdb_polars import DuckDBPolarsIOManager
 from ml_cookie_cutter.data.constants import (
     DAGSTER_HOME,
     DATALAKE_DIRECTORY,
-    DATASET_PREFIX,
     RAW_DATASET_DIRECTORY,
 )
 from ml_cookie_cutter.orchestration import timeseries_example
@@ -72,23 +70,4 @@ def materialize_timeseries_data_assets(
     )
 
 
-class Project:
-    def __init__(self, name: str) -> None:
-        self.name = name
 
-    def get_datasets(self) -> list[Path]:
-        return list((DATALAKE_DIRECTORY / self.name / DATASET_PREFIX).rglob("*.parquet"))
-
-    def __eq__(self, __value: object) -> bool:
-        if isinstance(__value, str):
-            return self.name == __value
-        return super().__eq__(__value)
-
-    def __repr__(self) -> str:
-        return f"Project(name={self.name})"
-
-    def __str__(self) -> str:
-        return self.name
-
-
-projects = [Project(name=timeseries_example.DATASET_PREFIX)]

@@ -11,7 +11,7 @@ See `Development container`, all setup should be included. If not,
 make install
 ```
 
-## Behavioural applications
+## Built in CLI for easy access
 
 ### Data
 
@@ -20,7 +20,15 @@ List projects
 ml list
 ```
 
+Materialize data for projects
+
+```
+ml materialize-project <PROJECT>
+```
+
 ### ML
+
+TODO
 
 train models using
 

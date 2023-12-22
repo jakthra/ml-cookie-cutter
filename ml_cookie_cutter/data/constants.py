@@ -10,3 +10,6 @@ DATALAKE_DIRECTORY: Path = DATASET_DIRECTORY / "datalake"
 DUCKDB_PATH = DATALAKE_DIRECTORY / "duckdb.db"
 
 DATASET_PREFIX = "dataset"
+
+# Project specific constants
+DATASET_PREFIX_TIMESERIES = "timeseries"

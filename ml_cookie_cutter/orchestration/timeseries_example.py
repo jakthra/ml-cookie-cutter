@@ -18,11 +18,13 @@ from dagster import (
 )
 from pydantic import model_validator
 
+from ml_cookie_cutter.data.constants import DATASET_PREFIX_TIMESERIES
 from ml_cookie_cutter.data.raw import RawDataset
 
 warnings.filterwarnings("ignore", category=ExperimentalWarning)
 
-DATASET_PREFIX = "timeseries"
+
+DATASET_PREFIX = DATASET_PREFIX_TIMESERIES
 
 timeseries_example_dataset = RawDataset("timeseries-example")
 
