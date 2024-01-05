@@ -1,0 +1,7 @@
+services:
+  mlflow:
+    build: 
+      context: .
+      dockerfile: Dockerfile.mlflow
+    ports:
+      - "8080:8080"
