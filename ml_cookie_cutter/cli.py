@@ -69,15 +69,14 @@ def list_datasets(project: str):
 def list_projects():
     """List projects"""
     from ml_cookie_cutter.projects import projects
+
     projects = [project for project in projects]
     strings = []
     for index, project in enumerate(projects):
         description = f"({project.description})" if project.description else ""
         strings.append(f"[{index}] {project.name} {description}")
-    strings_formatted = '\n'.join(strings)
-    print(Panel.fit(
-        f"""{strings_formatted}"""
-    , title="Projects"))
+    strings_formatted = "\n".join(strings)
+    print(Panel.fit(f"""{strings_formatted}""", title="Projects"))
 
 
 if __name__ == "__main__":

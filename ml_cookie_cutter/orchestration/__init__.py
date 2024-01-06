@@ -68,6 +68,3 @@ def materialize_timeseries_data_assets(
             "local_polars_parquet_io_manager": parquet_io_manager,
         },
     )
-
-
-
