@@ -1,8 +1,8 @@
 # Used to test the mlflow tracking server
 import mlflow
-from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_diabetes
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
 
 mlflow.set_tracking_uri("http://localhost:5000/")
 
